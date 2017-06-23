@@ -1,6 +1,6 @@
 1) Clone this repo to your local machine, as well as 'tap-static'
 
-2)Change the path in 'repo_path.yml' to match your local repo of 'tap-static'
+2) Change the path in 'repo_path.yml' to match your local repo of 'tap-static'
 
 3) Open terminal and cd to the repo of 'impacty-thing'
 
