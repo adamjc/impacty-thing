@@ -10,7 +10,7 @@ class Commit
     @hash = hash
   end
   def to_str
-    "|#{@name} | #{@hash}| #{@message} | -|-|--|"
+    "|#{@name} | #{@hash}| #{@message} |-|-|--|"
   end
 end
 
@@ -47,10 +47,15 @@ end
 
 def diff_tags(old_tag, new_tag)
   Dir.chdir($repo_path){
-    names = %x[git log  --pretty=format:%an%x09 #{old_tag}...#{new_tag}].split("\n")
-    messages =  %x[git log  --pretty=format:%s #{old_tag}...#{new_tag}].split("\n")
-    hashs = %x[git log  --pretty=format:%h%x09 #{old_tag}...#{new_tag}].split("\n")
+    names = %x[git log --pretty=format:%an%x09 #{old_tag}...#{new_tag}].split("\n")
+    messages =  %x[git log --pretty=format:%s #{old_tag}...#{new_tag}].split("\n")
+    hashs = %x[git log --pretty=format:%h%x09 #{old_tag}...#{new_tag}].split("\n")
+    # --ancestry-path
+
+    Dir.chdir($repo_path) {%x[git describe --contains "#{@hash}"]}
+
     names.zip(messages, hashs).map { |commits_stuff| Commit.new(commits_stuff[0].strip, commits_stuff[1].strip,commits_stuff[2].strip) }
+
   }
 end
 
@@ -90,6 +95,7 @@ end
 #   Set repo path
 $repo_path = '/Users/gullif01/workspace/tap-static'
 $repo_path = Psych.load_file('repo_path.yml')[0].to_s
+
 #   Update local repo
 puts [("\n" * 2), "Just updating the local repo m8.",("\n" * 2)]
 update_local_repo()
@@ -142,6 +148,12 @@ puts [ ("\n" * 1), "You've entered '" + input2 + "' which selects the tag of: '"
 
 #   Share commits out between crews
 diff_tags(tags[input1.to_i - 1],tags[(input2.to_i - 1)]).sort_by {|commit| commit.name}.each do |item|
+
+  # Dir.chdir($repo_path){
+  # puts     %x[git describe "#{(item.hash)}"]
+  #   }
+
+
   if  (lovely_horse.include? item.name)
     lovely_horse_commits << item.to_str
   elsif  (space_chimp.include? item.name)
@@ -175,3 +187,7 @@ build_table("Pyros", pyro_commits)
 build_table("Moss Piglets", broken_marrow_commits)
 build_table("Other Devs", unknown_user_commits)
 build_table("Unknowns", all_other_commits)
+
+puts ["---------------------------------------------------------------", ("\n" * 1)]
+
+File.open("my_first_output.txt", 'a+') { |file| file.puts(["---------------------------------------------------------------", ("\n" * 1)])}
