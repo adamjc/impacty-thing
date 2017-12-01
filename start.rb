@@ -107,7 +107,7 @@ File.open("my_first_output.txt", 'w') { |file| file.puts(" ") }
 #   initialise variable
 total_list = Array.new
 lovely_horse_commits = Array.new
-my_chemical_hanson_commits = Array.new
+bad_horse_commits = Array.new
 space_chimp_commits = Array.new
 honey_badger_commits = Array.new
 pyro_commits = Array.new
@@ -118,7 +118,7 @@ all_other_commits = Array.new
 #   read in crew configs
 lovely_horse = Psych.load_file('lovely_horse_config.yml')
 broken_marrow = Psych.load_file('broken_marrow_config.yml')
-my_chemical_hanson = Psych.load_file('my_chemical_hanson.yml')
+bad_horse = Psych.load_file('bad_horse.yml')
 space_chimp = Psych.load_file('space_chimp_config.yml')
 pyro = Psych.load_file('pyro_config.yml')
 honey_badger = Psych.load_file('honey_badger_config.yml')
@@ -164,8 +164,8 @@ diff_tags(tags[input1.to_i - 1],tags[(input2.to_i - 1)]).sort_by {|commit| commi
     pyro_commits << item.to_str
   elsif  (broken_marrow.include? item.name)
     broken_marrow_commits << item.to_str
-  elsif  (my_chemical_hanson.include? item.name)
-    my_chemical_hanson_commits << item.to_str
+  elsif  (bad_horse.include? item.name)
+    bad_horse_commits << item.to_str
   elsif  (unknown_user.include? item.name)
     unknown_user_commits << item.to_str
   else
@@ -181,7 +181,7 @@ File.open("my_first_output.txt", 'a+') { |file| file.puts(["h3. Check the versio
 
 build_table("Lovely Horses", lovely_horse_commits)
 build_table("Space Chimps", space_chimp_commits)
-build_table("My Chemical Hanson", my_chemical_hanson_commits)
+build_table("Bad Horses", bad_horse_commits)
 build_table("Honey Badgers", honey_badger_commits)
 build_table("Pyros", pyro_commits)
 build_table("Moss Piglets", broken_marrow_commits)
